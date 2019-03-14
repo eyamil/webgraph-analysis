@@ -15,9 +15,9 @@ SRCDIR := src
 BUILDDIR := build
 OBJDIR := $(BUILDDIR)/obj
 
-all: init pathfinder socialgathering
+all: init test socialgathering
 
-pathfinder: init $(addprefix $(OBJDIR)/,pathfinder.o Graph.o)
+test: init $(addprefix $(OBJDIR)/,testMat.o Graph.o)
 	$(CC) $(LDFLAGS) -o $(BUILDDIR)/$@ $(filter-out init,$^)
 
 socialgathering: init $(addprefix $(OBJDIR)/,socialgathering.o Graph.o)

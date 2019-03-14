@@ -12,6 +12,7 @@ class Node {
     public:
         const int id;
         unordered_set<int> edges;
+        int outdegree;
 
         /* Default constructor: */
         Node(int id);
@@ -30,9 +31,28 @@ class Node {
         bool isEdge(int to);
 };
 
+class nxnMatrix {
+    public:
+        const int n;
+        const double * array;
+
+        /* Default constructor: 
+         * n: size of the (square) matrix */
+        nxnMatrix(int n);
+
+        /* Destructor: */
+        ~nxnMatrix(void);
+
+        /* Array element access operator: 
+         * nrow: row number of the matrix element
+         * ncol: column number of the matrix element */
+        const double& operator()(int nrow, int ncol);
+};
+
 class Graph {
     public:
         unordered_map<int, Node*> vertices;
+	//nxnMatrix mat;
 
         /* Default constructor: */
         Graph(void);
@@ -57,4 +77,11 @@ class Graph {
         /* Load graph data from a file:
          * in_filename: the input file name */
         bool loadFromFile(const char* in_filename);
+
+	/* Build the stochastic matrix 
+         * resistance: Probability a user will stay on same page instead 
+         *      of leaving */
+        void buildMatrix(double resistance);
 };
+
+#endif
