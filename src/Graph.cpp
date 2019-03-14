@@ -32,14 +32,20 @@ Node::Node(int id) : id(id), outdegree(0) {}
 Node::~Node(void) {}
 
 /* Matrix Constructor: */
-nxnMatrix::nxnMatrix(int n) : n(n), array(new double[n*n]) {}
+nxnMatrix::nxnMatrix(int n = 1) : n(n), array(new double[n*n]) {}
 
 /* Matrix Destructor: */
 nxnMatrix::~nxnMatrix() {
     delete[] array;
 }
 
-const double& nxnMatrix::operator()(int nrow, int ncol) {
+/* Access matrix element (assignment): */
+double const & nxnMatrix::operator()(const int nrow, const int ncol) {
+    return(array[n * nrow + ncol]);
+}
+
+/* Access matrix element (get): */
+double const & nxnMatrix::operator()(const int nrow, const int ncol) const {
     return(array[n * nrow + ncol]);
 }
 

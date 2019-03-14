@@ -13,6 +13,7 @@ class Node {
         const int id;
         unordered_set<int> edges;
         int outdegree;
+        double rank;
 
         /* Default constructor: */
         Node(int id);
@@ -46,13 +47,18 @@ class nxnMatrix {
         /* Array element access operator: 
          * nrow: row number of the matrix element
          * ncol: column number of the matrix element */
-        const double& operator()(int nrow, int ncol);
+        double const & operator()(const int nrow, const int ncol);
+        
+        /* Array element access operator: 
+         * nrow: row number of the matrix element
+         * ncol: column number of the matrix element */
+        double const & operator()(const int nrow, const int ncol) const;
 };
 
 class Graph {
     public:
         unordered_map<int, Node*> vertices;
-	//nxnMatrix mat;
+	nxnMatrix mat;
 
         /* Default constructor: */
         Graph(void);
