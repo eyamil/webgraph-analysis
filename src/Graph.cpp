@@ -32,7 +32,7 @@ Node::Node(int id) : id(id), outdegree(0) {}
 Node::~Node(void) {}
 
 /* Matrix Constructor: */
-nxnMatrix::nxnMatrix(int n = 1) : n(n), array(new double[n*n]) {}
+nxnMatrix::nxnMatrix(int n = 1) : n(n), array(new double[n*n]()) {}
 
 /* Matrix Destructor: */
 nxnMatrix::~nxnMatrix() {
@@ -40,12 +40,12 @@ nxnMatrix::~nxnMatrix() {
 }
 
 /* Access matrix element (assignment): */
-double const & nxnMatrix::operator()(const int nrow, const int ncol) {
+double & nxnMatrix::operator()(int nrow, int ncol) {
     return(array[n * nrow + ncol]);
 }
 
 /* Access matrix element (get): */
-double const & nxnMatrix::operator()(const int nrow, const int ncol) const {
+double nxnMatrix::operator()(int nrow, int ncol) const {
     return(array[n * nrow + ncol]);
 }
 
@@ -57,9 +57,9 @@ Graph::~Graph(void) {
     for (auto itr : vertices) {
         delete itr.second;
     }
-    /*if (mat != nullptr) {
-        delete mat;
-    }*/
+    if (matrix != nullptr) {
+        delete matrix;
+    }
 }
 
 /* Add node to graph: 
@@ -82,6 +82,21 @@ void Graph::addEdge(int from, int to) {
 bool Graph::isEdge(int n1, int n2) {
     Node * node = vertices[n1];
     return(node -> isEdge(n2));
+}
+
+/* Build the stochastic matrix 
+ * moveP: Probability a user will leave the page */
+void Graph::buildMatrix(double moveP = 0.999) {
+    matrix = new nxnMatrix(vertices.size());
+    nxnMatrix & mat = *(matrix);
+    for (auto curr = vertices.begin(); curr != vertices.end(); curr++) {
+        Node * node = curr->second;
+        unordered_set<int>& edges = node -> edges;
+        for (auto to = edges.begin(); to != edges.end(); to++) {
+            mat(node->id, *to) = moveP * (1.0 / node -> outdegree);
+        }
+        mat(node -> id, node -> id) = 1.0 - moveP;
+    }
 }
 
 /* Read in relationships from an inputfile to create a graph */

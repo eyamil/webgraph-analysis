@@ -35,7 +35,7 @@ class Node {
 class nxnMatrix {
     public:
         const int n;
-        const double * array;
+        double * const array;
 
         /* Default constructor: 
          * n: size of the (square) matrix */
@@ -44,21 +44,21 @@ class nxnMatrix {
         /* Destructor: */
         ~nxnMatrix(void);
 
-        /* Array element access operator: 
+        /* Array element access: 
          * nrow: row number of the matrix element
          * ncol: column number of the matrix element */
-        double const & operator()(const int nrow, const int ncol);
+        double & operator()(int nrow, int ncol);
         
         /* Array element access operator: 
          * nrow: row number of the matrix element
          * ncol: column number of the matrix element */
-        double const & operator()(const int nrow, const int ncol) const;
+        double operator() (int nrow, int ncol) const;
 };
 
 class Graph {
     public:
         unordered_map<int, Node*> vertices;
-	nxnMatrix mat;
+	nxnMatrix * matrix;
 
         /* Default constructor: */
         Graph(void);
@@ -85,9 +85,8 @@ class Graph {
         bool loadFromFile(const char* in_filename);
 
 	/* Build the stochastic matrix 
-         * resistance: Probability a user will stay on same page instead 
-         *      of leaving */
-        void buildMatrix(double resistance);
+         * resistance: Probability a user will leave the page */
+        void buildMatrix(double moveP);
 };
 
 #endif
