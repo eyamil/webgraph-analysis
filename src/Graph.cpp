@@ -63,23 +63,25 @@ void nxnMatrix::apply(vector<double> & v) {
 }
 
 /* Compute magnitude of a vector: */
-double magnitude(vector<double> & v) {
+double nxnMatrix::magnitude(vector<double> & v) {
     double sum = 0.0;
-    for (int i = 0; i < v.size() i++) {
+    for (int i = 0; i < v.size(); i++) {
         sum += v[i] * v[i];
     }
     return(sqrt(sum));
 }
 
 /* Compute principal eigenvector: */
-vector<double> computePrincipalEigenvector() {
-    vector<double> vec(n, 1);
+vector<double> nxnMatrix::computePrincipalEigenvector(double init_mag) {
+    vector<double> vec(n, sqrt(init_mag / n));
     double mag = magnitude(vec);
     int iterations = 0;
-    while (iterations < 1000 && (mag - magnitude(vec)) > 0.005) {
+    do {
         mag = magnitude(vec);
         apply(vec);
+        iterations++;
     }
+    while (iterations < 1000 && (mag - magnitude(vec)) > 0.005);
     return(vec);
 }
 
@@ -127,10 +129,17 @@ void Graph::buildMatrix(double moveP = 0.999) {
         Node * node = curr->second;
         unordered_set<int>& edges = node -> edges;
         for (auto to = edges.begin(); to != edges.end(); to++) {
-            mat(node->id, *to) = moveP * (1.0 / node -> outdegree);
+            // correct for 1-indexed nodes:
+            mat(node->id - 1, *to - 1) = moveP * (1.0 / node -> outdegree);
         }
-        mat(node -> id, node -> id) = 1.0 - moveP;
+        mat(node -> id - 1, node -> id - 1) = 1.0 - moveP;
+        // correct for 1-indexed nodes:
     }
+}
+
+/* Compute pageranks: */
+void Graph::computeRanks(double init_mag) {
+    pagerank = matrix->computePrincipalEigenvector(init_mag);
 }
 
 /* Read in relationships from an inputfile to create a graph */

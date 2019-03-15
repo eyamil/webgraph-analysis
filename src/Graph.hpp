@@ -62,13 +62,14 @@ class nxnMatrix {
         double magnitude(vector<double> & v);
 
         /* Compute the eigenvector of the matrix by power approximation: */
-        vector<double> computePrincipalEigenvector();
+        vector<double> computePrincipalEigenvector(double init_mag);
 };
 
 class Graph {
     public:
         unordered_map<int, Node*> vertices;
 	nxnMatrix * matrix;
+        vector<double> pagerank;
 
         /* Default constructor: */
         Graph(void);
@@ -97,6 +98,9 @@ class Graph {
 	/* Build the stochastic matrix 
          * resistance: Probability a user will leave the page */
         void buildMatrix(double moveP);
+
+        /* Compute pageranks: */
+        void computeRanks(double init_mag);
 };
 
 #endif
