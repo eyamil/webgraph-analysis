@@ -130,9 +130,9 @@ void Graph::buildMatrix(double moveP = 0.999) {
         unordered_set<int>& edges = node -> edges;
         for (auto to = edges.begin(); to != edges.end(); to++) {
             // correct for 1-indexed nodes:
-            mat(node->id - 1, *to - 1) = moveP * (1.0 / node -> outdegree);
+            mat(node->id, *to) = moveP * (1.0 / node -> outdegree);
         }
-        mat(node -> id - 1, node -> id - 1) = 1.0 - moveP;
+        mat(node -> id, node -> id) = 1.0 - moveP;
         // correct for 1-indexed nodes:
     }
 }
