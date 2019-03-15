@@ -57,6 +57,12 @@ class nxnMatrix {
         /* Matrix multiply an array by this matrix:
          * v: vector to multiply */
         void apply(vector<double> & v);
+
+        /* Compute magnitude of a vector: */
+        double magnitude(vector<double> & v);
+
+        /* Compute the eigenvector of the matrix by power approximation: */
+        vector<double> computePrincipalEigenvector();
 };
 
 class Graph {

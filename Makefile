@@ -15,12 +15,12 @@ SRCDIR := src
 BUILDDIR := build
 OBJDIR := $(BUILDDIR)/obj
 
-all: init test socialgathering
+all: init test pagerank
 
 test: init $(addprefix $(OBJDIR)/,testMat.o Graph.o)
 	$(CC) $(LDFLAGS) -o $(BUILDDIR)/$@ $(filter-out init,$^)
 
-socialgathering: init $(addprefix $(OBJDIR)/,socialgathering.o Graph.o)
+pagerank: init $(addprefix $(OBJDIR)/,pagerank.o Graph.o)
 	$(CC) $(LDFLAGS) -o $(BUILDDIR)/$@ $(filter-out init,$^)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp

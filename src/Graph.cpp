@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <sstream>
 #include <string>
+#include <cmath>
 #include <utility>
 
 using namespace std;
@@ -59,6 +60,27 @@ void nxnMatrix::apply(vector<double> & v) {
         }
     }
     v = resultant;
+}
+
+/* Compute magnitude of a vector: */
+double magnitude(vector<double> & v) {
+    double sum = 0.0;
+    for (int i = 0; i < v.size() i++) {
+        sum += v[i] * v[i];
+    }
+    return(sqrt(sum));
+}
+
+/* Compute principal eigenvector: */
+vector<double> computePrincipalEigenvector() {
+    vector<double> vec(n, 1);
+    double mag = magnitude(vec);
+    int iterations = 0;
+    while (iterations < 1000 && (mag - magnitude(vec)) > 0.005) {
+        mag = magnitude(vec);
+        apply(vec);
+    }
+    return(vec);
 }
 
 /* Graph Constructor: */
