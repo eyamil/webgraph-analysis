@@ -1,0 +1,1 @@
+./build/pagerank ./data/facebook_combined.txt 0.8 ./data/facebook_combined_output.txt
