@@ -52,7 +52,11 @@ class nxnMatrix {
         /* Array element access operator: 
          * nrow: row number of the matrix element
          * ncol: column number of the matrix element */
-        double operator() (int nrow, int ncol) const;
+        double get(int nrow, int ncol) const;
+
+        /* Matrix multiply an array by this matrix:
+         * v: vector to multiply */
+        void apply(vector<double> & v);
 };
 
 class Graph {

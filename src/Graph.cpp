@@ -45,8 +45,20 @@ double & nxnMatrix::operator()(int nrow, int ncol) {
 }
 
 /* Access matrix element (get): */
-double nxnMatrix::operator()(int nrow, int ncol) const {
+double nxnMatrix::get(int nrow, int ncol) const {
     return(array[n * nrow + ncol]);
+}
+
+/* Multiply a vector by the matrix: */
+void nxnMatrix::apply(vector<double> & v) {
+    vector<double> resultant(n);
+    for (int i = 0; i < n; i++) {
+        resultant[i] = 0;
+        for (int j = 0; j < n; j++) {
+            resultant[i] += get(i,j) * v[j];
+        }
+    }
+    v = resultant;
 }
 
 /* Graph Constructor: */
